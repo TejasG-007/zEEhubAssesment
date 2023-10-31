@@ -11,15 +11,7 @@ RxInt totalWorkingHours = 0.obs;
 RxDouble avgForProdMeter = 0.0.obs;
 Rxn<CustomColors> meterColor = Rxn<CustomColors>(CustomColors.red);
 
-RxList<Datum> dataList = [
-  Datum(dayCount: 0, days: "Monday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Tuesday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Wednesday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Thursday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Friday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Saturday", status: Status.status, hourCount: 0),
-  Datum(dayCount: 0, days: "Sunday", status: Status.status, hourCount: 0),
-].obs;
+RxList<Datum> dataList = <Datum>[].obs;
 
 @override
 onInit()async{

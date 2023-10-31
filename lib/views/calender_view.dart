@@ -17,39 +17,33 @@ class _CalenderViewState extends State<CalenderView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body:Obx(()=>controller.userData.value!=null?GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
+        body:LayoutBuilder(
+          builder:(context,size)=>Obx(()=>controller.userData.value!=null?GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
                 mainAxisSpacing: 0,
-                crossAxisSpacing: 15,
-                childAspectRatio: 1.3),
-            itemCount: controller.dataList.length,
-            itemBuilder: (context, ind) => controller.dataList[ind].dayCount==0
-                ? Container(
-              height: 10,
-              alignment: Alignment.center,
-              margin: const EdgeInsets.all(10),
-              child: Text(
-                ind.getDayText,
-                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 24),
+                crossAxisSpacing: 0,
+                childAspectRatio: 2
               ),
-            )
-                : singleContainer(getColor(controller.dataList[ind].status),
-                controller.dataList[ind].dayCount.toString(),controller.dataList[ind].status.stringValue)):const Center(
-          child: Text("Fetching Relevant Data...",style: TextStyle(
-              color: Colors.black,fontWeight: FontWeight.bold
-          ),),
-        ),
+              itemCount: controller.dataList.length,
+              itemBuilder: (context, ind) => singleContainer(getColor(controller.dataList[ind].status),
+                  controller.dataList[ind].dayCount.toString(),controller.dataList[ind].status.stringValue,size)):const Center(
+            child: Text("Fetching Relevant Data...",style: TextStyle(
+                color: Colors.black,fontWeight: FontWeight.bold
+            ),),
+          ),
+          ),
         ));
   singleContainer(
-          CustomColors tileColor, String dayText, String dayStatus) =>
+          CustomColors tileColor, String dayText, String dayStatus,BoxConstraints size) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
             Container(
-              height: MediaQuery.sizeOf(context).height * .15,
-              width: MediaQuery.sizeOf(context).width * .30,
+              height: size.maxHeight * .15,
+              width: size.maxWidth * .30,
               decoration: BoxDecoration(
                   color: tileColor.getShadeColors, borderRadius: BorderRadius.circular(10)),
               child: Column(
@@ -58,8 +52,8 @@ class _CalenderViewState extends State<CalenderView> {
                   Center(
                     child: Text(
                       dayText,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 24),
+                      style:  TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: size.maxWidth*.02),
                     ),
                   ),
                   const SizedBox(
@@ -67,28 +61,20 @@ class _CalenderViewState extends State<CalenderView> {
                   ),
                   Text(
                     dayStatus,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style:  TextStyle(fontWeight: FontWeight.bold,fontSize: size.maxWidth*.01),
                   )
                 ],
               ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * .14,
-                  width: MediaQuery.sizeOf(context).width * .30,
-                ),
-                Container(
-                  height: MediaQuery.sizeOf(context).height * .01,
-                  width: MediaQuery.sizeOf(context).width * .30,
-                  alignment: Alignment.bottomCenter,
-                  decoration: BoxDecoration(
-                      color: tileColor.getColor,
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10))),
-                )
-              ],
+            Container(
+              height: size.maxHeight * .01,
+              width: size.maxWidth * .30,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                  color: tileColor.getColor,
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
             )
           ],
         ),
